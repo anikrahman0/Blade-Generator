@@ -4,6 +4,9 @@
 .nav-link{
     color: #198754;
 }
+.nav-link:hover{
+    color: #104d30;
+}
 .menu_list {
     max-height: 390px;
     overflow-y: auto;
@@ -106,9 +109,11 @@ table.dataTable thead .sorting_desc_disabled:after {
     outline: 0;
     box-shadow: unset!important;
 }
-.alert_box:hover{
+.alert-box-hover{
     background:#e8f7f0;
-    cursor:move;
+}
+.active-elements{
+    background: #A2E1B4;
 }
 label{
     font-size: 14px;
@@ -124,4 +129,10 @@ label{
 }
 :-moz-placeholder { /* Firefox 18- */
   font-size: 14px;
+}
+.edit:hover, .delete:hover{
+ cursor:pointer;
+}
+.fs-14{
+    font-size: 14px;
 }
