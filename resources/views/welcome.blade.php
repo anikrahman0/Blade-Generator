@@ -16,15 +16,15 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="card p-3 shadow" style="max-width: 600px;">
-                    <h5 class="mb-4">Components</h5>
+                    <h5 class="mb-2">Components</h5>
                     <nav>
                         <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="add-field" data-bs-toggle="tab"
                                 data-bs-target="#add_field" type="button" role="tab" aria-controls="add_field"
-                                aria-selected="true"><i class="fa-solid fa-plus"></i> Field</button>
+                                aria-selected="true"><i class="fa-solid fa-plus"></i> Add New Field</button>
                             <button class="nav-link" id="edit-field" data-bs-toggle="tab"
                                 data-bs-target="#edit_field" type="button" role="tab" aria-controls="edit_field"
-                                aria-selected="false"><i class="fa-solid fa-pen-to-square"></i> Field</button>
+                                aria-selected="false"><i class="fa-solid fa-pen-to-square"></i> Edit Field</button>
                             <button class="nav-link" id="styles-tab" data-bs-toggle="tab"
                                 data-bs-target="#styles" type="button" role="tab" aria-controls="styles"
                                 aria-selected="false"><i class="fa-solid fa-wand-magic-sparkles"></i> Styles</button>
@@ -51,41 +51,46 @@
                         </div>
                         <div class="tab-pane fade" id="edit_field" role="tabpanel" aria-labelledby="edit_field">
                             <div class="form-elements">
-                                <div class="form-group required-wrap"><label for="required-frmb-1670219737654-fld-1">Required</label>
-                                    <div class="input-wrap"><input type="checkbox" class="fld-required" name="required"
-                                            id="required-frmb-1670219737654-fld-1"></div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" id="required">
+                                    <label class="form-check-label" for="required"> Required </label>
                                 </div>
-                                <div class="form-group label-wrap" style="display: block"><label for="label-frmb-1670219737654-fld-1">Label</label>
-                                    <div class="input-wrap">
-                                        <div name="label" placeholder="Label" class="fld-label form-control" id="label-frmb-1670219737654-fld-1"
-                                            contenteditable="true">Name</div>
+                                <div class="form-group mb-2">
+                                    <label for="">Label</label>
+                                    <div class="input-wrap name-attr">
+                                        <div name="label" placeholder="Label" class="form-control" id="" contenteditable="true">Name</div>
                                     </div>
                                 </div>
-                                <div class="form-group description-wrap" style="display: block"><label
-                                        for="description-frmb-1670219737654-fld-1">Help Text</label>
-                                    <div class="input-wrap"><input name="description" placeholder="" class="fld-description form-control"
-                                            id="description-frmb-1670219737654-fld-1" value="" type="text"></div>
+                                <div class="form-group mb-2">
+                                    <label for="">Help Text</label>
+                                    <div class="input-wrap">
+                                        <input name="description" placeholder="" class="form-control" id="" value="" type="text">
+                                    </div>
                                 </div>
-                                <div class="form-group placeholder-wrap" style="display: block"><label
-                                        for="placeholder-frmb-1670219737654-fld-1">Placeholder</label>
-                                    <div class="input-wrap"><input name="placeholder" placeholder="" class="fld-placeholder form-control"
-                                            id="placeholder-frmb-1670219737654-fld-1" value="" type="text"></div>
+                                <div class="form-group  mb-2">
+                                    <label for="">Placeholder</label>
+                                    <div class="input">
+                                        <input name="placeholder" placeholder="" class="form-control" id="" value="" type="text">
+                                    </div>
                                 </div>
-                                <div class="form-group className-wrap" style="display: block"><label
-                                        for="className-frmb-1670219737654-fld-1">Class</label>
-                                    <div class="input-wrap"><input name="className" placeholder="space separated classes"
-                                            class="fld-className form-control" id="className-frmb-1670219737654-fld-1" value="form-control"
-                                            type="text"></div>
+                                <div class="form-group  mb-2">
+                                    <label for="">Class</label>
+                                    <div class="input-wrap">
+                                        <input name="" placeholder="space separated classes" class="form-control" id="" value="form-control" type="text">
+                                    </div>
                                 </div>
-                                <div class="form-group name-wrap" style="display: block"><label for="name-frmb-1670219737654-fld-1">Name</label>
-                                    <div class="input-wrap"><input name="name" placeholder="" class="fld-name form-control"
-                                            id="name-frmb-1670219737654-fld-1" value="date-1670219742959-0" type="text"></div>
+                                <div class="form-group mb-2">
+                                    <label for="">Name</label>
+                                    <div class="">
+                                        <input name="name" placeholder="" class="form-control" id="" value="" type="text">
+                                    </div>
                                 </div>
-                                <div class="form-group value-wrap" style="display: undefined"><label
-                                        for="value-frmb-1670219737654-fld-1">Value</label>
-                                    <div class="input-wrap"><input name="value" placeholder="Value" class="fld-value form-control"
-                                            id="value-frmb-1670219737654-fld-1" value="" type="text"></div>
-                                </div><a class="close-field">Close</a>
+                                <div class="form-group  mb-2">
+                                    <label for="">Value</label>
+                                    <div class="input-wrap">
+                                        <input name="value" placeholder="Value" class="form-control" id="" value="" type="text">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="styles" role="tabpanel"
@@ -155,13 +160,26 @@
         $(document).on('click','.delete', function(e){
             e.preventDefault();
             $(this).closest('.alert_box').remove()
+            $.each(current_classes, function (index, class_name) {
+                if (/bg.*/.test(class_name)) {
+                    classes_to_remove.push(class_name);
+                }
+            });
+            //reserialize after delete
+            {{-- var sl = 0;
+            $('.element').addClass(function (i) {
+                return 'element_' + (++sl);
+            }); --}}
         })
 
         function formGenerate(fieldType){
+            let count =0;
+            count = $('.element').length;
+            console.log(count)
             var fieldElement='';
             if(fieldType=='text'){
                 fieldElement +=`
-                <div class="form-group alert_box mb-2 rounded p-3">
+                <div class="form-group alert_box mb-2 rounded p-3 element element_${count+1}">
                     <div class="d-flex align-items-center justify-content-between mb-1">
                         <div><label for="description">Description</label></div>
                         <div class="fs-14 pe-2 action-elements d-none"><span class="btn btn-sm btn-success me-1 edit"><i class="fa-solid fa-pen-to-square"></i></span> <span class="btn btn-sm btn-danger delete"><i class="fas fa-trash-alt"></i></span></div>
@@ -200,6 +218,7 @@
                 console.log('something went wrong')
             }
             $('#form').append(fieldElement);
+            count++;
         }
     </script>
 </body>
