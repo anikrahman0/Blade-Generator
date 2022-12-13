@@ -19,17 +19,10 @@
                     <h5 class="mb-2">Components</h5>
                     <nav>
                         <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                            <button class="nav-link active" id="add-field" data-bs-toggle="tab"
-                                data-bs-target="#add_field" type="button" role="tab" aria-controls="add_field"
-                                aria-selected="true"><i class="fa-solid fa-plus"></i> Add New Field</button>
-                            <button class="nav-link" id="edit-field" data-bs-toggle="tab"
-                                data-bs-target="#edit_field" type="button" role="tab" aria-controls="edit_field"
-                                aria-selected="false"><i class="fa-solid fa-pen-to-square"></i> Edit Field</button>
-                            <button class="nav-link" id="styles-tab" data-bs-toggle="tab"
-                                data-bs-target="#styles" type="button" role="tab" aria-controls="styles"
-                                aria-selected="false"><i class="fa-solid fa-wand-magic-sparkles"></i> Styles</button>
-                            <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button"
-                                role="tab" aria-controls="#settings" aria-selected="false"><i class="fa-solid fa-gear"></i> Settings</button>
+                            <button class="nav-link active" id="add-field" data-bs-toggle="tab" data-bs-target="#add_field" type="button" role="tab" aria-controls="add_field" aria-selected="true"><i class="fa-solid fa-plus"></i> Add New Field</button>
+                            <button class="nav-link" id="edit-field" data-bs-toggle="tab" data-bs-target="#edit_field" type="button" role="tab" aria-controls="edit_field" aria-selected="false"><i class="fa-solid fa-pen-to-square"></i> Edit Field</button>
+                            <button class="nav-link" id="styles-tab" data-bs-toggle="tab" data-bs-target="#styles" type="button" role="tab" aria-controls="styles" aria-selected="false"><i class="fa-solid fa-wand-magic-sparkles"></i> Styles</button>
+                            <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="#settings" aria-selected="false"><i class="fa-solid fa-gear"></i> Settings</button>
                         </div>
                     </nav>
                     <div class="tab-content p-3 border bg-light" id="nav-tabContent">
@@ -50,48 +43,7 @@
                            </div>
                         </div>
                         <div class="tab-pane fade" id="edit_field" role="tabpanel" aria-labelledby="edit_field">
-                            <div class="form-elements">
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" value="" id="required">
-                                    <label class="form-check-label" for="required"> Required </label>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="">Label</label>
-                                    <div class="input-wrap name-attr">
-                                        <div name="label" placeholder="Label" class="form-control" id="" contenteditable="true">Name</div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="">Help Text</label>
-                                    <div class="input-wrap">
-                                        <input name="description" placeholder="" class="form-control" id="" value="" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group  mb-2">
-                                    <label for="">Placeholder</label>
-                                    <div class="input">
-                                        <input name="placeholder" placeholder="" class="form-control" id="" value="" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group  mb-2">
-                                    <label for="">Class</label>
-                                    <div class="input-wrap">
-                                        <input name="" placeholder="space separated classes" class="form-control" id="" value="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="">Name</label>
-                                    <div class="">
-                                        <input name="name" placeholder="" class="form-control" id="" value="" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group  mb-2">
-                                    <label for="">Value</label>
-                                    <div class="input-wrap">
-                                        <input name="value" placeholder="Value" class="form-control" id="" value="" type="text">
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="form-elements"></div>
                         </div>
                         <div class="tab-pane fade" id="styles" role="tabpanel"
                             aria-labelledby="styles">
@@ -133,6 +85,12 @@
             e.preventDefault();
             var fieldType = $(this).data('field-type');
             formGenerate(fieldType);
+            $('.nav-link').removeClass('active')
+            $('.tab-pane .fade').removeClass('active').removeClass('show')
+            $('#edit-field').addClass('active show')
+            $('.nav-link').attr('aria-selected', false);
+            $('#edit-field').addClass('active')
+            $('#edit-field').attr('aria-selected', true);
         })
         // on mouse click active elements
         $(document).on('click','.alert_box', function(e){
@@ -160,26 +118,19 @@
         $(document).on('click','.delete', function(e){
             e.preventDefault();
             $(this).closest('.alert_box').remove()
-            $.each(current_classes, function (index, class_name) {
-                if (/bg.*/.test(class_name)) {
-                    classes_to_remove.push(class_name);
-                }
-            });
             //reserialize after delete
-            {{-- var sl = 0;
+            var sl = 0;
             $('.element').addClass(function (i) {
                 return 'element_' + (++sl);
-            }); --}}
+            });
         })
 
         function formGenerate(fieldType){
-            let count =0;
-            count = $('.element').length;
-            console.log(count)
             var fieldElement='';
+            var attrProp='';
             if(fieldType=='text'){
                 fieldElement +=`
-                <div class="form-group alert_box mb-2 rounded p-3 element element_${count+1}">
+                <div class="form-group alert_box mb-2 rounded p-3 element element_${Math.random()}">
                     <div class="d-flex align-items-center justify-content-between mb-1">
                         <div><label for="description">Description</label></div>
                         <div class="fs-14 pe-2 action-elements d-none"><span class="btn btn-sm btn-success me-1 edit"><i class="fa-solid fa-pen-to-square"></i></span> <span class="btn btn-sm btn-danger delete"><i class="fas fa-trash-alt"></i></span></div>
@@ -192,6 +143,48 @@
                     @enderror
                 </div>
                 `;
+                attrProp+=`<div class="attr-prop attr-prop_${Math.random()}">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="required">
+                        <label class="form-check-label" for="required"> Required </label>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="">Label</label>
+                        <div class="input-wrap name-attr">
+                            <div name="label" placeholder="Label" class="form-control" id="" contenteditable="true">Name</div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="">Help Text</label>
+                        <div class="input-wrap">
+                            <input name="description" placeholder="" class="form-control" id="" value="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group  mb-2">
+                        <label for="">Placeholder</label>
+                        <div class="input">
+                            <input name="placeholder" placeholder="" class="form-control" id="" value="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group  mb-2">
+                        <label for="">Class</label>
+                        <div class="input-wrap">
+                            <input name="" placeholder="space separated classes" class="form-control" id="" value="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="">Name</label>
+                        <div class="">
+                            <input name="name" placeholder="" class="form-control" id="" value="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group  mb-2">
+                        <label for="">Value</label>
+                        <div class="input-wrap">
+                            <input name="value" placeholder="Value" class="form-control" id="" value="" type="text">
+                        </div>
+                    </div>
+                </div>`
             } else if (fieldType == 'paragraph'){
 
             } else if (fieldType == 'checkboxes') {
@@ -218,7 +211,7 @@
                 console.log('something went wrong')
             }
             $('#form').append(fieldElement);
-            count++;
+            $('.form-elements').append(attrProp);
         }
     </script>
 </body>
