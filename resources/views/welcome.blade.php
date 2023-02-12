@@ -88,18 +88,26 @@
             $('.nav-link').removeClass('active')
             $('.tab-pane .fade').removeClass('active').removeClass('show')
             $('#edit-field').addClass('active show')
+            $('.add_field').addClass('d-none')
+            $('.attr-prop').addClass('d-none')
+            $('.attr-prop').first().removeClass('d-none');
+            $('.edit_field').removeClass('d-none')
             $('.nav-link').attr('aria-selected', false);
             $('#edit-field').addClass('active')
             $('#edit-field').attr('aria-selected', true);
         })
         // on mouse click active elements
         $(document).on('click','.alert_box', function(e){
+            elementId =$(this).data('element');
+            console.log(elementId);
             $('.alert_box').removeClass('active-elements')
             $('.alert_box').removeClass('alert-box-hover')
             $('.action-elements').addClass('d-none')
             $(this).addClass('active-elements')
             $(this).find('.alert_box').addClass('action-elements')
             $(this).find('.action-elements').removeClass('d-none')
+            $('.attr-prop').addClass('d-none')
+            $('.attr-prop_'+elementId).removeClass('d-none')
         });
         // on mouseover show action elements
         $(document).on('mouseover','.alert_box', function(e){
@@ -140,9 +148,10 @@
             var attrProp='';
             $('.element').removeClass('active-elements')
             $('.action-elements').addClass('d-none')
+            var unique_class=Math.floor(Math.random() * 100000)
             if(fieldType=='text'){
                 fieldElement +=`
-                <div class="form-group alert_box mb-2 rounded p-3 element element_${Math.random()} active-elements alert-box-hover">
+                <div data-element="${unique_class}" class="form-group alert_box mb-2 rounded p-3 element element_${unique_class} active-elements alert-box-hover">
                     <div class="d-flex align-items-center justify-content-between mb-1">
                         <div><label for="description">Description</label></div>
                         <div class="fs-14 pe-2 action-elements"><span class="btn btn-sm btn-success me-1 edit"><i class="fa-solid fa-pen-to-square"></i></span> <span class="btn btn-sm btn-danger delete"><i class="fas fa-trash-alt"></i></span></div>
@@ -155,7 +164,7 @@
                     @enderror
                 </div>
                 `;
-                attrProp+=`<div class="attr-prop attr-prop_${Math.random()}">
+                attrProp+=`<div data-attr-prop="${unique_class}" class="attr-prop attr-prop_${unique_class}">
                     <div class="form-check mb-2">
                         <input class="form-check-input" type="checkbox" value="" id="required">
                         <label class="form-check-label" for="required"> Required </label>
