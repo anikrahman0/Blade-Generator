@@ -136,3 +136,19 @@ label{
 .fs-14{
     font-size: 14px;
 }
+.form-control{
+    font-size:.9rem;
+}
+label{
+    font-weight: 600;
+}
+.form-check-input:checked {
+    background-color: #008758;
+    border-color: #008758;
+}
+.nav-link {
+    padding: .3rem .6rem;
+}
+.bg-custom{
+    background: #f0f8f2;
+}

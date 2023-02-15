@@ -25,7 +25,7 @@
                             <button class="nav-link" data-target="settings" id="settings-tab" type="button" role="tab" aria-controls="#settings" aria-selected="false"><i class="fa-solid fa-gear"></i> Settings</button>
                         </div>
                     </nav>
-                    <div class="tab-content p-3 border bg-light" id="nav-tabContent">
+                    <div class="tab-content p-3 border bg-custom rounded" id="nav-tabContent">
                         <div class="add_field" id="add_field" role="tabpanel" aria-labelledby="add-field">
                            <div class="from-group row">
                                 <div class="col-md-6 mb-2"> <a href="" data-field-type="text" class="btn btn-success btn-sm d-block text-start field-btn"><i class="fa-solid fa-font"></i> Text</a> </div>
@@ -79,6 +79,7 @@
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <script src="{{asset('assets/js/script.js')}}"></script>
     <script src="{{asset('assets/js/custom-js.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script>
         // add new field
         $(document).on('click','.field-btn', function(e){
@@ -153,10 +154,11 @@
                 fieldElement +=`
                 <div data-element="${unique_class}" class="form-group alert_box mb-2 rounded p-3 element element_${unique_class} active-elements alert-box-hover">
                     <div class="d-flex align-items-center justify-content-between mb-1">
-                        <div><label for="description">Description</label></div>
+                        <div><label for="description">Your Label</label></div>
                         <div class="fs-14 pe-2 action-elements"><span class="btn btn-sm btn-success me-1 edit"><i class="fa-solid fa-pen-to-square"></i></span> <span class="btn btn-sm btn-danger delete"><i class="fas fa-trash-alt"></i></span></div>
                     </div>
-                    <textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="3" id="description" placeholder="Enter description" maxlength="5000">{{ old('description') }}</textarea>
+                    <textarea class="form-control @error('description') is-invalid @enderror" name="" rows="3" cols="4" id="" placeholder="Enter your placeholder text" maxlength="1000">{{ old('description') }}</textarea>
+                    <span class="help-text text-success small">* your help text here</span>
                     @error('description')
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
@@ -166,43 +168,61 @@
                 `;
                 attrProp+=`<div data-attr-prop="${unique_class}" class="attr-prop attr-prop_${unique_class}">
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="" id="required">
+                        <input data-required-id="${unique_class}" class="form-check-input required-prop" type="checkbox" value="" id="required">
                         <label class="form-check-label" for="required"> Required </label>
                     </div>
                     <div class="form-group mb-2">
                         <label for="">Label</label>
                         <div class="input-wrap name-attr">
-                            <div name="label" placeholder="Label" class="form-control" id="" contenteditable="true">Name</div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="">Help Text</label>
-                        <div class="input-wrap">
-                            <input name="description" placeholder="" class="form-control" id="" value="" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group  mb-2">
-                        <label for="">Placeholder</label>
-                        <div class="input">
-                            <input name="placeholder" placeholder="" class="form-control" id="" value="" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group  mb-2">
-                        <label for="">Class</label>
-                        <div class="input-wrap">
-                            <input name="" placeholder="space separated classes" class="form-control" id="" value="form-control" type="text">
+                            <input data-label-id="${unique_class}" class="form-control label-prop" id="" value="Your Label" type="text">
                         </div>
                     </div>
                     <div class="form-group mb-2">
                         <label for="">Name</label>
                         <div class="">
-                            <input name="name" placeholder="" class="form-control" id="" value="" type="text">
+                            <input data-name-id="${unique_class}" class="form-control name-prop" value="" type="text">
+                        </div>
+                    </div>
+                     <div class="form-group mb-2">
+                        <label for="">Maxlength</label>
+                        <div class="input-wrap">
+                            <input data-maxlength-id="${unique_class}" class="form-control maxlength-prop" value="1000" type="text">
                         </div>
                     </div>
                     <div class="form-group  mb-2">
-                        <label for="">Value</label>
+                        <label for="">Placeholder</label>
+                        <div class="input">
+                            <input data-placeholder-id="${unique_class}" class="form-control placeholder-prop" id="" value="Enter your placeholder text" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group  mb-2">
+                        <label for="">Class</label>
                         <div class="input-wrap">
-                            <input name="value" placeholder="Value" class="form-control" id="" value="" type="text">
+                            <input data-class-id="${unique_class}" class="form-control class-prop" value="form-control" type="text">
+                        </div>
+                    </div>
+                     <div class="form-group  mb-2">
+                        <label for="">ID</label>
+                        <div class="input-wrap">
+                            <input data-attr-id="${unique_class}" class="form-control id-prop" type="text">
+                        </div>
+                    </div>
+                     <div class="form-group  mb-2">
+                        <label for="">Rows</label>
+                        <div class="input-wrap">
+                            <input data-rows-id="${unique_class}" class="form-control rows-prop" value="3" type="text">
+                        </div>
+                    </div>
+                     <div class="form-group  mb-2">
+                        <label for="">Cols</label>
+                        <div class="input-wrap">
+                            <input data-cols-id="${unique_class}" class="form-control cols-prop" value="4" type="text">
+                        </div>
+                    </div>
+                     <div class="form-group mb-2">
+                        <label for="">Help Text</label>
+                        <div class="input-wrap">
+                            <input data-help-id="${unique_class}" class="form-control help-prop" value="Enter help text" type="text">
                         </div>
                     </div>
                 </div>`
@@ -233,6 +253,75 @@
             }
             $('#form').prepend(fieldElement);
             $('.form-elements').prepend(attrProp);
+            $(document).on('click','.required-prop', function(){
+                var elementID = $(this).data('required-id')
+                if ($(this).is(':checked')) {
+                    $('.element_'+elementID).find('textarea').prop('required', true);
+                }else{
+                    $('.element_'+elementID).find('textarea').prop('required', false);
+                }
+            })
+            // $(document).on('input','.label-prop', function(){
+            //     console.log('hejej');
+            //     var elementID = $(this).data('label-id')
+            //     let value  = $(this).val();
+            //     console.log(elementID+ value)
+            //     $('.element_'+elementID).find('label').text(value);
+            // })
+            $(document).on('input', '.label-prop', _.throttle(function() {
+                var elementID = $(this).data('label-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('label').text(value);
+            }, 300));
+            $(document).on('input', '.maxlength-prop', _.throttle(function() {
+                 var elementID = $(this).data('maxlength-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('textarea').prop('maxlength',value);
+            }, 300));
+            $(document).on('input', '.placeholder-prop', _.throttle(function() {
+                var elementID = $(this).data('placeholder-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('textarea').prop('placeholder',value);
+            }, 300));
+            $(document).on('input', '.name-prop', _.throttle(function() {
+                var elementID = $(this).data('name-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('textarea').prop('name',value);
+            }, 300));
+            $(document).on('input', '.class-prop', _.throttle(function() {
+                var elementID = $(this).data('class-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('textarea').prop('class',value);
+            }, 300));
+            $(document).on('input', '.id-prop', _.throttle(function() {
+                var elementID = $(this).data('attr-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('textarea').prop('id',value);
+            }, 300));
+            $(document).on('input', '.rows-prop', _.throttle(function() {
+                var elementID = $(this).data('rows-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('textarea').prop('rows',value);
+            }, 300));
+            $(document).on('input', '.cols-prop', _.throttle(function() {
+                var elementID = $(this).data('cols-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('textarea').prop('cols',value);
+            }, 300));
+            $(document).on('input', '.help-prop', _.throttle(function() {
+                var elementID = $(this).data('help-id')
+                let value  = $(this).val();
+                console.log(elementID+ value)
+                $('.element_'+elementID).find('.help-text').text(value);
+            }, 300));
         }
     </script>
 </body>
