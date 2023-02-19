@@ -81,32 +81,22 @@
     <script src="{{asset('assets/js/custom-js.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script>
+        let target_add_field = $('.nav-link[data-target="add_field"]');
         // add new field
         $(document).on('click','.field-btn', function(e){
             e.preventDefault();
             var fieldType = $(this).data('field-type');
             formGenerate(fieldType);
-            $('.nav-link').removeClass('active')
-            $('.tab-pane .fade').removeClass('active').removeClass('show')
-            $('#edit-field').addClass('active show')
-            $('.add_field').addClass('d-none')
-            $('.attr-prop').addClass('d-none')
-            $('.attr-prop').first().removeClass('d-none');
-            $('.edit_field').removeClass('d-none')
-            $('.nav-link').attr('aria-selected', false);
-            $('#edit-field').addClass('active')
-            $('#edit-field').attr('aria-selected', true);
+            activeEditField()
         })
         // on mouse click active elements
         $(document).on('click','.alert_box', function(e){
+            activeEditField()
             elementId =$(this).data('element');
-            console.log(elementId);
-            $('.alert_box').removeClass('active-elements')
-            $('.alert_box').removeClass('alert-box-hover')
+            $(this).addClass('active-elements').siblings().removeClass('active-elements');
             $('.action-elements').addClass('d-none')
-            $(this).addClass('active-elements')
-            $(this).find('.alert_box').addClass('action-elements')
             $(this).find('.action-elements').removeClass('d-none')
+            $('.alert_box').removeClass('alert-box-hover')
             $('.attr-prop').addClass('d-none')
             $('.attr-prop_'+elementId).removeClass('d-none')
         });
@@ -126,28 +116,53 @@
         // delete field
         $(document).on('click','.delete', function(e){
             e.preventDefault();
+            e.stopPropagation();
+            let elementId = $(this).data('delete-id')
             $(this).closest('.alert_box').remove()
-            //reserialize after delete
-            var sl = 0;
-            $('.element').addClass(function (i) {
-                return 'element_' + (++sl);
-            });
+            $('.attr-prop_'+elementId).remove()
+            if($('.element').length == 0){
+                activeAddNewField(target_add_field)
+            }else if($('.element').length > 0 ){
+                console.log($('.form').find('active-elements').length > 0)
+                if($('.form').find('.active-elements').length == 0){
+                    $('.element').first().addClass('active-elements')
+                    $('.action-elements').first().removeClass('d-none');
+                    var attr_element  = $('.element').first().attr('data-element')
+                    $('.attr-prop_'+attr_element).removeClass('d-none')
+                }else{
+
+                }
+            }
         })
-        $(document).on('click', '.nav-link', function (e) {
-            $('.nav-link').removeClass('active')
-            $(this).addClass('active')
-            var data_target = $(this).data('target');
-            $('.add_field').addClass('d-none');
-            $('.edit_field').addClass('d-none');
-            $('.styles').addClass('d-none');
-            $('.settings').addClass('d-none');
-            $('.'+data_target).removeClass('d-none');
+        $(document).on('click', '.nav-link', function(){
+            activeAddNewField(target_add_field)
         });
+        // active add new field
+        function activeAddNewField(element){
+            $('.nav-link').removeClass('active')
+            $(element).addClass('active')
+            var data_target = $(element).data('target');
+            $('.add_field, .edit_field, .styles, .settings').addClass('d-none');
+            $('.'+data_target).removeClass('d-none');
+        }
+        // active edit field
+        function activeEditField(){
+            $('.nav-link').removeClass('active')
+            $('.nav-link').attr('aria-selected', false);
+            $('.tab-pane .fade').removeClass('active show')
+            $('#edit-field').addClass('active show')
+            $('.edit_field').removeClass('d-none')
+            $('#edit-field').addClass('active')
+            $('#edit-field').attr('aria-selected', true);
+            $('.add_field, .attr-prop').addClass('d-none')
+            $('.attr-prop').first().removeClass('d-none');
+        }
         // form generate function
         function formGenerate(fieldType){
             var fieldElement='';
             var attrProp='';
             $('.element').removeClass('active-elements')
+            console.log('i am a  problem from generate')
             $('.action-elements').addClass('d-none')
             var unique_class=Math.floor(Math.random() * 100000)
             if(fieldType=='text'){
@@ -155,7 +170,7 @@
                 <div data-element="${unique_class}" class="form-group alert_box mb-2 rounded p-3 element element_${unique_class} active-elements alert-box-hover">
                     <div class="d-flex align-items-center justify-content-between mb-1">
                         <div><label for="description">Your Label</label></div>
-                        <div class="fs-14 pe-2 action-elements"><span class="btn btn-sm btn-success me-1 edit"><i class="fa-solid fa-pen-to-square"></i></span> <span class="btn btn-sm btn-danger delete"><i class="fas fa-trash-alt"></i></span></div>
+                        <div class="fs-14 pe-2 action-elements"><span data-delete-id="${unique_class}" class="btn btn-sm btn-danger delete"><i class="fas fa-trash-alt"></i></span></div>
                     </div>
                     <textarea class="form-control @error('description') is-invalid @enderror" name="" rows="3" cols="4" id="" placeholder="Enter your placeholder text" maxlength="1000">{{ old('description') }}</textarea>
                     <span class="help-text text-success small">* your help text here</span>
